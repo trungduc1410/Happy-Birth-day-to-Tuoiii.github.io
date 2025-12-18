@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Thư sinh nhật 💌</title>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #ffe6f0, #ffd1e8);
+    font-family: "Poppins", sans-serif;
+    overflow: hidden;
+  }
+
+  /* Bao thư */
+  .envelope {
+    position: relative;
+    width: 480px;
+    height: 340px;
+    background: #ff99cc;
+    border-radius: 12px;
+    box-shadow: 0 6px 25px rgba(0,0,0,0.25);
+    cursor: pointer;
+    perspective: 900px;
+    transition: transform 0.4s;
+  }
+
+  .envelope:hover {
+    transform: scale(1.03);
+  }
+
+  /* Nắp thư */
+  .flap {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-left: 240px solid transparent;
+    border-right: 240px solid transparent;
+    border-bottom: 160px solid #ff66aa;
+    top: 0;
+    left: 0;
+    transform-origin: top;
+    transition: transform 1s ease;
+    border-radius: 8px 8px 0 0;
+    z-index: 3;
+  }
+
+  /* Thân thư */
+  .pocket {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 65%;
+    background: #ff7ab8;
+    border-radius: 0 0 12px 12px;
+    z-index: 2;
+  }
+
+  /* Lá thư trắng */
+  .letter {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    width: 420px;
+    height: 280px;
+    background: #fffafc;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    text-align: center;
+    padding: 25px 35px;
+    line-height: 1.8;
+    z-index: 1;
+    opacity: 0;
+    transition: all 1s ease;
+    overflow: hidden;
+  }
+
+  .letter h2 {
+    font-family: "Pacifico", cursive;
+    color: #ff3f8e;
+    font-size: 32px;
+    margin-bottom: 15px;
+  }
+
+  .letter p {
+    font-size: 17px;
+    color: #333;
+    white-space: pre-line;
+  }
+
+  /* Khi mở thư */
+  .open .flap {
+    transform: rotateX(180deg);
+  }
+
+  .open .letter {
+    transform: translate(-50%, -90px);
+    opacity: 1;
+    z-index: 5;
+    animation: shake 0.4s ease-in-out 1;
+  }
+
+  @keyframes shake {
+    0% { transform: translate(-50%, -90px) rotate(0deg); }
+    25% { transform: translate(-50%, -90px) rotate(1.5deg); }
+    50% { transform: translate(-50%, -90px) rotate(-1.5deg); }
+    75% { transform: translate(-50%, -90px) rotate(1deg); }
+    100% { transform: translate(-50%, -90px) rotate(0); }
+  }
+
+  /* Nút tiếp tục */
+  #nextBtn {
+    margin-top: 80px; /* ⬅️ Dịch xuống thấp hơn */
+    padding: 12px 35px;
+    background: #ff66aa;
+    border: none;
+    color: white;
+    font-size: 17px;
+    border-radius: 8px;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 1.2s ease;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+  }
+
+  .show-btn #nextBtn {
+    opacity: 1;
+  }
+
+  /* Tim rơi nhẹ */
+  .heart {
+    position: fixed;
+    top: -10px;
+    color: #ff4081;
+    font-size: 20px;
+    animation: fall linear forwards;
+    z-index: 10;
+  }
+
+  @keyframes fall {
+    to {
+      transform: translateY(100vh);
+      opacity: 0;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="envelope" id="envelope">
+  <div class="flap"></div>
+  <div class="pocket"></div>
+  <div class="letter" id="letter">
+    <h2>💖 Happy Birthday 💖</h2>
+    <p>Chúc bạn có một ngày sinh nhật thật rực rỡ 🌸  
+Đầy tiếng cười, niềm vui và những điều tuyệt vời nhất! 🎉  
+
+Hãy luôn là chính bạn — tỏa sáng, mạnh mẽ và đáng yêu 💕  
+
+Gửi đến bạn thật nhiều yêu thương trong ngày đặc biệt này 💌</p>
+  </div>
+</div>
+
+<button id="nextBtn" onclick="nextStep()">Tiếp tục ➜</button>
+
+<script>
+const envelope = document.getElementById("envelope");
+const nextBtn = document.getElementById("nextBtn");
+
+envelope.addEventListener("click", () => {
+  if (!envelope.classList.contains("open")) {
+    envelope.classList.add("open");
+    document.body.classList.add("show-btn");
+  }
+});
+
+// Tim rơi
+function createHeart() {
+  const heart = document.createElement("div");
+  heart.classList.add("heart");
+  heart.innerHTML = "💞";
+  heart.style.left = Math.random() * 100 + "vw";
+  heart.style.animationDuration = Math.random() * 3 + 2 + "s";
+  document.body.appendChild(heart);
+  setTimeout(() => heart.remove(), 5000);
+}
+setInterval(createHeart, 350);
+
+function nextStep() {
+  window.location.href = "step4.html";
+}
+</script>
+
+</body>
+</html>

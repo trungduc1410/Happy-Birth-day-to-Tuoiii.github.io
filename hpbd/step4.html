@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Quà sinh nhật 💝</title>
+<style>
+  body {
+    background-color: #ffcce0;
+    overflow: hidden;
+    height: 100vh;
+    margin: 0;
+  }
+
+  /* Ảnh chạy ngang */
+  .moving-img {
+    position: absolute;
+    width: 140px;
+    height: 170px;
+    object-fit: cover;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.25);
+    opacity: 0;
+    animation: moveAcross linear forwards;
+  }
+
+  /* Chuyển động + mờ dần */
+  @keyframes moveAcross {
+    0% {
+      left: -200px;
+      opacity: 0;
+      transform: scale(0.8);
+    }
+    10% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    80% {
+      opacity: 1;
+      transform: scale(1.05);
+    }
+    100% {
+      left: 100vw;
+      opacity: 0;
+      transform: scale(1.1);
+    }
+  }
+
+  /* Tim rơi */
+  .heart {
+    position: fixed;
+    top: -10px;
+    color: #ff4081;
+    font-size: 20px;
+    animation: fall linear forwards;
+    z-index: 10;
+  }
+
+  @keyframes fall {
+    to {
+      transform: translateY(100vh);
+      opacity: 0;
+    }
+  }
+</style>
+</head>
+<body>
+
+<script>
+// 🌸 Danh sách 4 ảnh
+const baseImages = [
+  "img1.jpg",
+  "img2.jpg",
+  "img3.jpg",
+  "img4.jpg"
+];
+
+// 🌈 Nhân bản ảnh và thêm hiệu ứng
+for (let i = 0; i < baseImages.length; i++) {
+  const imgSrc = baseImages[i];
+  const count = Math.floor(Math.random() * 3) + 3; // mỗi ảnh 3–5 bản
+
+  for (let j = 0; j < count; j++) {
+    const img = document.createElement("img");
+    img.src = imgSrc;
+    img.classList.add("moving-img");
+
+    // Vị trí dọc ngẫu nhiên
+    img.style.top = Math.random() * 80 + "vh";
+
+    // Thời gian chạy (5–12s)
+    const duration = 5 + Math.random() * 7;
+    img.style.animationDuration = duration + "s";
+
+    // Độ trễ ban đầu (0–5s)
+    img.style.animationDelay = Math.random() * 5 + "s";
+
+    document.body.appendChild(img);
+
+    // Cho ảnh chạy lại theo chu kỳ
+    setInterval(() => {
+      img.style.left = "-200px";
+      img.style.animation = "none";
+      void img.offsetWidth; // reset animation
+      img.style.animation = `moveAcross ${duration}s linear forwards`;
+    }, (duration + Math.random() * 3) * 1000);
+  }
+}
+
+// 💞 Hiệu ứng tim rơi
+function createHeart() {
+  const heart = document.createElement("div");
+  heart.classList.add("heart");
+  heart.innerHTML = "💞";
+  heart.style.left = Math.random() * 100 + "vw";
+  heart.style.animationDuration = Math.random() * 3 + 2 + "s";
+  document.body.appendChild(heart);
+  setTimeout(() => heart.remove(), 5000);
+}
+setInterval(createHeart, 300);
+</script>
+
+</body>
+</html>

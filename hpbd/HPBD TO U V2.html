@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="vi">
+\<head>
+<meta charset="UTF-8">
+<title>HPBD To  💖</title>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    background-color: #ffb6c1;
+    font-family: 'Poppins', sans-serif;
+    overflow: hidden;
+  }
+  .step {
+    display: none;
+    height: 100vh;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    transition: opacity 1s ease;
+  }
+  .active {
+    display: flex;
+    opacity: 1;
+  }
+
+  /* Step 1 */
+  .container {
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 20px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  }
+  .wrapper {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+  }
+  .photo {
+    width: 180px;
+    height: 240px;
+    border-radius: 20px;
+    object-fit: cover;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  }
+  .password-box {
+    background: white;
+    padding: 10px 15px;
+    border-radius: 15px;
+    display: inline-block;
+    font-weight: bold;
+    color: #e91e63;
+    margin-bottom: 15px;
+    font-size: 22px;
+    min-width: 160px;
+    letter-spacing: 2px;
+  }
+  .keypad {
+    display: grid;
+    grid-template-columns: repeat(3, 60px);
+    gap: 10px;
+    justify-content: center;
+  }
+  .btn {
+    background-color: #ff4da6;
+    border: none;
+    color: white;
+    border-radius: 10px;
+    font-size: 20px;
+    padding: 10px;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+  .btn:hover {
+    background-color: #ff3385;
+    transform: scale(1);
+  }
+  #okBtn {
+    grid-column: span 3;
+    background-color: #e91e63;
+    font-weight: bold;
+  }
+
+  /* Step 2 */
+  .step2 img {
+    width: 220px;
+    height: 270px;
+    border-radius: 20px;
+    object-fit: cover;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+    border: 4px solid rgba(255,255,255,0.7);
+  }
+  .step2 button {
+    margin-top: 40px;
+    background-color: #ff4da6;
+    border: none;
+    padding: 12px 28px;
+    color: white;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 17px;
+  }
+
+  /* Step 3 */
+  .envelope {
+    position: relative;
+    width: 480px;
+    height: 340px;
+    background: #ff99cc;
+    border-radius: 12px;
+    box-shadow: 0 6px 25px rgba(0,0,0,0.25);
+    cursor: pointer;
+    perspective: 900px;
+  }
+  .flap {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-left: 240px solid transparent;
+    border-right: 240px solid transparent;
+    border-bottom: 160px solid #ff66aa;
+    top: 0;
+    left: 0;
+    transform-origin: top;
+    transition: transform 1s ease;
+    z-index: 3;
+  }
+  .pocket {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 65%;
+    background: #ff7ab8;
+    border-radius: 0 0 12px 12px;
+    z-index: 2;
+  }
+  .letter {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    width: 420px;
+    height: 280px;
+    background: #fffafc;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    text-align: center;
+    padding: 25px 35px;
+    line-height: 1.8;
+    z-index: 1;
+    opacity: 0;
+    transition: all 1s ease;
+  }
+  .open .flap {
+    transform: rotateX(180deg);
+  }
+  .open .letter {
+    transform: translate(-50%, -90px);
+    opacity: 1;
+    z-index: 5;
+  }
+  .nextBtn {
+    margin-top: 60px;
+    background: #ff66aa;
+    border: none;
+    padding: 12px 35px;
+    color: white;
+    font-size: 17px;
+    border-radius: 8px;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 1.2s ease;
+  }
+  .show-btn .nextBtn {
+    opacity: 1;
+  }
+
+  /* Step 4 */
+  .moving-img {
+    position: absolute;
+    width: 140px;
+    height: 170px;
+    object-fit: cover;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.25);
+    opacity: 0;
+    animation: moveAcross linear forwards;
+  }
+  @keyframes moveAcross {
+    0% { left: -200px; opacity: 0; transform: scale(0.8); }
+    10% { opacity: 1; transform: scale(1); }
+    80% { opacity: 1; transform: scale(1.05); }
+    100% { left: 100vw; opacity: 0; transform: scale(1.1); }
+  }
+
+  /* Heart */
+  .heart {
+    position: fixed;
+    top: -10px;
+    color: #ff4081;
+    font-size: 20px;
+    animation: fall linear forwards;
+    z-index: 10;
+  }
+  @keyframes fall {
+    to { transform: translateY(100vh); opacity: 0; }
+  }
+</style>
+</head>
+<body>
+
+<audio id="music" autoplay loop>
+  <source src="your_music.mp3" type="audio/mpeg">
+</audio>
+
+<!-- Step 1 -->
+<div class="step step1 active">
+  <div class="wrapper">
+    <img src="111.jpg" alt="" class="photo">
+    <div class="container">
+      <h2>Nhập ngày đặc biệt nào cô gái 💞</h2>
+      <div class="password-box" id="passwordBox">__/__/____</div>
+      <div class="keypad">
+        <button class="btn" onclick="press(1)">1</button>
+        <button class="btn" onclick="press(2)">2</button>
+        <button class="btn" onclick="press(3)">3</button>
+        <button class="btn" onclick="press(4)">4</button>
+        <button class="btn" onclick="press(5)">5</button>
+        <button class="btn" onclick="press(6)">6</button>
+        <button class="btn" onclick="press(7)">7</button>
+        <button class="btn" onclick="press(8)">8</button>
+        <button class="btn" onclick="press(9)">9</button>
+        <button class="btn" onclick="clearCode()">X</button>
+        <button class="btn" onclick="press(0)">0</button>
+        <button class="btn" id="okBtn" onclick="next1()">xác nhận mật mã</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Step 2 -->
+<div class="step step2">
+  <h2>🎉 CHÚC MỪNG SINH NHẬT CÔNG CHÚA 🎉</h2>
+  <img src="333.jpg" alt="Ảnh công chúa">
+  <p>Tên bạn 💕</p>
+  <button onclick="showStep(3)">Tiếp tục 💫</button>
+</div>
+
+<!-- Step 3 -->
+<div class="step step3">
+  <div class="envelope" id="envelope">
+    <div class="flap"></div>
+    <div class="pocket"></div>
+    <div class="letter">
+      <h2>💖 Happy Birthday 💖</h2>
+      <p>Chúc bạn có một ngày sinh nhật thật rực rỡ 🌸  
+Đầy tiếng cười, niềm vui và những điều tuyệt vời nhất! 🎉  
+
+Hãy luôn là chính bạn — tỏa sáng, mạnh mẽ và đáng yêu 💕  
+
+Gửi đến bạn thật nhiều yêu thương trong ngày đặc biệt này 💌</p>
+    </div>
+  </div>
+  <button class="nextBtn" onclick="showStep(4)">Tiếp tục ➜</button>
+</div>
+
+<!-- Step 4 -->
+<div class="step step4"></div>
+
+<script>
+let code = "";
+
+function press(num) {
+  if (code.length < 8) { code += num; updateDisplay(); }
+}
+function clearCode() { code = code.slice(0, -1); updateDisplay(); }
+function updateDisplay() {
+  let d = code.slice(0, 2), m = code.slice(2, 4), y = code.slice(4, 8);
+  document.getElementById("passwordBox").innerText = 
+  (d.padEnd(2,"_")) + "/" + (m.padEnd(2,"_")) + "/" + (y.padEnd(4,"_"));
+}
+function next1() {
+  if (code === "19122007") showStep(2);
+  else  alert("Sai pass r, thử lại đi cô gái 💔");
+}
+function showStep(n) {
+  document.querySelectorAll(".step").forEach(s => s.classList.remove("active"));
+  document.querySelector(".step" + n).classList.add("active");
+  if (n === 4) startStep4();
+}
+
+// Step 3 mở thư
+const envelope = document.getElementById("envelope");
+envelope.addEventListener("click", () => {
+  envelope.classList.add("open");
+  document.body.classList.add("show-btn");
+});
+
+// Step 4 ảnh chạy
+function startStep4() {
+  const baseImages = ["444.jpg","555.jpg","111.jpg","333.jpg"];
+  const step4 = document.querySelector(".step4");
+  for (let i=0;i<baseImages.length;i++){
+    const count=Math.floor(Math.random()*3)+3;
+    for(let j=0;j<count;j++){
+      const img=document.createElement("img");
+      img.src=baseImages[i];
+      img.classList.add("moving-img");
+      img.style.top=Math.random()*80+"vh";
+      const duration=5+Math.random()*7;
+      img.style.animationDuration=duration+"s";
+      img.style.animationDelay=Math.random()*5+"s";
+      step4.appendChild(img);
+    }
+  }
+}
+
+// Tim rơi toàn trang
+function createHeart(){
+  const heart=document.createElement("div");
+  heart.classList.add("heart");
+  heart.innerHTML="💞";
+  heart.style.left=Math.random()*100+"vw";
+  heart.style.animationDuration=Math.random()*3+2+"s";
+  document.body.appendChild(heart);
+  setTimeout(()=>heart.remove(),5000);
+}
+setInterval(createHeart,300);
+</script>
+
+</body>
+</html>

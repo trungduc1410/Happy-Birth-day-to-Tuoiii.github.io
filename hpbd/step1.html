@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Nhập ngày sinh 💗</title>
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    background-color: #ffb6c1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Poppins', sans-serif;
+    overflow: hidden;
+  }
+
+  .container {
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 20px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  }
+
+  .wrapper {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+  }
+
+  .photo {
+    width: 180px;
+    height: 240px;
+    border-radius: 20px;
+    object-fit: cover;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  }
+
+  h2 {
+    color: #e91e63;
+  }
+
+  .password-box {
+    background: white;
+    padding: 10px 15px;
+    border-radius: 15px;
+    display: inline-block;
+    font-weight: bold;
+    color: #e91e63;
+    margin-bottom: 15px;
+    font-size: 22px;
+    min-width: 160px;
+    letter-spacing: 2px;
+  }
+
+  .keypad {
+    display: grid;
+    grid-template-columns: repeat(3, 60px);
+    gap: 10px;
+    justify-content: center;
+  }
+
+  .btn {
+    background-color: #ff4da6;
+    border: none;
+    color: white;
+    border-radius: 10px;
+    font-size: 20px;
+    padding: 10px;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+
+  .btn:hover {
+    background-color: #ff3385;
+    transform: scale(1.05);
+  }
+
+  #okBtn {
+    grid-column: span 3;
+    background-color: #e91e63;
+    font-weight: bold;
+  }
+
+  /* Tim rơi */
+  .heart {
+    position: fixed;
+    top: -10px;
+    color: #ff4081;
+    font-size: 20px;
+    animation: fall linear forwards;
+  }
+
+  @keyframes fall {
+    to {
+      transform: translateY(100vh);
+      opacity: 0;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrapper">
+  <img src="your_photo.jpg" alt="Ảnh bạn" class="photo">
+
+  <div class="container">
+    <h2>Nhập ngày sinh của bạn 💞</h2>
+    <div class="password-box" id="passwordBox">__/__/____</div>
+    <div class="keypad">
+      <button class="btn" onclick="press(1)">1</button>
+      <button class="btn" onclick="press(2)">2</button>
+      <button class="btn" onclick="press(3)">3</button>
+      <button class="btn" onclick="press(4)">4</button>
+      <button class="btn" onclick="press(5)">5</button>
+      <button class="btn" onclick="press(6)">6</button>
+      <button class="btn" onclick="press(7)">7</button>
+      <button class="btn" onclick="press(8)">8</button>
+      <button class="btn" onclick="press(9)">9</button>
+      <button class="btn" onclick="clearCode()">X</button>
+      <button class="btn" onclick="press(0)">0</button>
+      <button class="btn" id="okBtn" onclick="next()"> xác nhận mật mã </button>
+    </div>
+  </div>
+</div>
+
+<script>
+let code = ""; // chỉ chứa số
+
+function press(num) {
+  if (code.length < 8) {
+    code += num;
+    updateDisplay();
+  }
+}
+
+function clearCode() {
+  code = code.slice(0, -1);
+  updateDisplay();
+}
+
+function updateDisplay() {
+  // Format luôn có dấu /
+  let d = code.slice(0, 2);
+  let m = code.slice(2, 4);
+  let y = code.slice(4, 8);
+  let display = 
+    (d.padEnd(2, "_")) + "/" + 
+    (m.padEnd(2, "_")) + "/" + 
+    (y.padEnd(4, "_"));
+  document.getElementById("passwordBox").innerText = display;
+}
+
+function next() {
+  if (code.length === 8) {
+    if (code === "19122007") {
+      window.location.href = "step2.html";
+    } else {
+      alert("Sai rồi, thử lại đi 💔");
+      code = "";
+      updateDisplay();
+    }
+  } else {
+    alert("Hãy nhập đủ 8 số (dd/mm/yyyy) nhé 💕");
+  }
+}
+
+// Tim rơi
+function createHeart() {
+  const heart = document.createElement("div");
+  heart.classList.add("heart");
+  heart.innerHTML = "❤️";
+  heart.style.left = Math.random() * 100 + "vw";
+  heart.style.animationDuration = Math.random() * 3 + 2 + "s";
+  document.body.appendChild(heart);
+  setTimeout(() => heart.remove(), 5000);
+}
+setInterval(createHeart, 300);
+</script>
+
+</body>
+</html>
